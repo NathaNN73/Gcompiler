@@ -1,0 +1,13 @@
+NUEVONODO=1
+SETEARPOSICION=2
+GRAFICARRUTA=3
+BUSCARRUTA=4
+A=5
+NOMBRENODO=6
+RUTA=7
+WS=8
+'nuevoNodo'=1
+'setearPosicion'=2
+'graficarRuta'=3
+'buscarRuta'=4
+'a'=5
