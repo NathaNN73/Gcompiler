@@ -1,0 +1,7 @@
+nuevoNodo a *
+nuevoNodo b 1
+nuevoNodo c 11
+nuevoNodo d 10
+setearPosicion 111 > 10
+graficarRuta b 10
+buscarRuta a c
