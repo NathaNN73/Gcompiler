@@ -1,0 +1,9 @@
+nuevoNodo a 10;
+nuevoNodo b 1;
+nuevoNodo c 11;
+nuevoNodo d 10;
+sP b > 10;
+gR b 10;
+bR a c;
+nuevoNodo e 0;
+buscarRuta b d;

@@ -1,0 +1,10 @@
+/compilers/TF_COMPILADORES/build/CMakeFiles/intrinsics_gen.dir
+/compilers/TF_COMPILADORES/build/CMakeFiles/vt_gen.dir
+/compilers/TF_COMPILADORES/build/CMakeFiles/omp_gen.dir
+/compilers/TF_COMPILADORES/build/CMakeFiles/acc_gen.dir
+/compilers/TF_COMPILADORES/build/CMakeFiles/ARMTargetParserTableGen.dir
+/compilers/TF_COMPILADORES/build/CMakeFiles/AArch64TargetParserTableGen.dir
+/compilers/TF_COMPILADORES/build/CMakeFiles/RISCVTargetParserTableGen.dir
+/compilers/TF_COMPILADORES/build/CMakeFiles/GrafoCompiler.dir
+/compilers/TF_COMPILADORES/build/CMakeFiles/edit_cache.dir
+/compilers/TF_COMPILADORES/build/CMakeFiles/rebuild_cache.dir
