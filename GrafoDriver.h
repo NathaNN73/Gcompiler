@@ -51,7 +51,7 @@ public:
     }
 
     void init(){
-        auto FunctionType = llvm::FunctionType::get(Type::getInt32Ty(*context), false);
+        auto FunctionType = llvm::FunctionType::get(Type::getVoidTy(*context), false);
         this->mainFunc = llvm::Function::Create(
             FunctionType,
             Function::ExternalLinkage,
@@ -66,23 +66,21 @@ public:
 
     void printIR() {
         module->print(llvm::outs(), nullptr);
-
         error_code errorCode;
         //Se imprime tambien en TrieModule.ll    
-        llvm::raw_fd_ostream outLL("TrieModule.ll", errorCode);
+        //llvm::raw_fd_ostream outLL("TrieModule.ll", errorCode);
+        llvm::raw_fd_ostream TrieModule("TrieModule.ll", errorCode);
+        module->print(TrieModule, nullptr);
             
     }
 
     void generateInsertFunction(string ruta) {
-        // Nos aseguramos de que todo el código se inserte dentro de mainFunc
         BasicBlock* entry = BasicBlock::Create(*context, "entry", mainFunc);
         builder->SetInsertPoint(entry);
 
-        // Obtenemos la ruta del argumento de mainFunc
-
-        // Aseguramos que root está inicializado
+        // inicializar root
         if (root == nullptr) {
-            root = trie.createBinaryTrieNode();  // Inicializa la raíz si es necesario
+            root = trie.createBinaryTrieNode(); 
         }
 
         // Llamamos a la función para insertar en el Trie
@@ -93,33 +91,17 @@ public:
     }
 
     void generateSearchFunction(string ruta1, string ruta2) {
-        // Generamos una función de búsqueda que también se inserte en mainFunc
         BasicBlock* entry = BasicBlock::Create(*context, "entry", mainFunc);
         builder->SetInsertPoint(entry);
-        // Obtenemos las rutas de los argumentos
+        // Obtener rutas 
         
         cout << "Buscando ruta entre: " << ruta1 << " y " << ruta2 << std::endl;
-        // Aquí implementas la lógica para buscar en el Trie
-        // Por ejemplo, llamamos a la función de búsqueda en el Trie
-        bool found = trie.searchBinaryWord(root, ruta1) && trie.searchBinaryWord(root, ruta2);
-        builder->CreateRet(builder->getInt1(found));  // Retornamos si se encontró la ruta o no
-    }
-
-    /*Function* deletePathFunction(Function* mainFunc) {
-        //getInt8PtrTy()
-        //FunctionType* funcType = FunctionType::get(builder->getVoidTy(), {builder->getInt8Ty()->getPointerTo()}, false);
-        //Function* func = Function::Create(funcType, Function::ExternalLinkage, "deletePath", *module);
-        BasicBlock* entry = BasicBlock::Create(*context, "entry", mainFuncfunc);
-        builder->SetInsertPoint(entry);
-
-        Value* ruta = &*func->arg_begin();  // Obtenemos el argumento (ruta)
         
-        // Aquí agregarías la lógica para buscar la ruta en el Trie usando LLVM
-        // Por ahora, retornamos falso, pero debes agregar las condiciones para verificar si la ruta está en el Trie
+        bool found = (trie.searchBinaryWord(root, ruta1) && trie.searchBinaryWord(root, ruta2));
 
-        builder->CreateRetVoid();  // Devuelve falso por ahora (puedes cambiar esto según la lógica)
-        return func;
-    }*/
+        // Retornamos si se encontró la ruta o no
+        builder->CreateRet(builder->getInt1(found)); 
+    }
 
     antlrcpp::Any visitGrafo(GrafoParser::GrafoContext* ctx) override {
         cout << "Visitando el grafo..." << endl;
@@ -142,11 +124,11 @@ public:
         cout << "Insertando nuevo nodo con ruta: " << ruta << std::endl;
         nodePath[nombre] = ruta;
     
-        // Aquí agregamos la instrucción de LLVM para insertar la ruta en mainFunc
-        generateInsertFunction(ruta);  // Generamos la función de inserción dentro de mainFunc
-        Value* nombreValue = builder->CreateGlobalString(nombre);  // Convertir el nombre a un puntero de cadena
-        Value* rutaValue = builder->CreateGlobalString(ruta);  // Convertir la ruta a un puntero de cadena
-        //builder->CreateCall(insertFunc, {rutaValue});  // Llamamos a la función insertRuta
+        
+        generateInsertFunction(ruta);  
+        Value* nombreValue = builder->CreateGlobalString(nombre);  
+        Value* rutaValue = builder->CreateGlobalString(ruta);  
+        //builder->CreateCall(insertFunc, {rutaValue});  
 
         return visitChildren(ctx);
     }
@@ -158,16 +140,17 @@ public:
         cout << "Seteando el nodo: " << nombre << " con la ruta: " << ruta << std::endl;
         
         // Aquí agregamos la instrucción de LLVM para insertar la ruta dentro de mainFunc
-        generateInsertFunction(ruta);  // Generamos la función de inserción dentro de mainFunc
+        generateInsertFunction(ruta);  
 
-        Value* rutaValue = builder->CreateGlobalString(ruta);  // Convertir la ruta a un puntero de cadena
-        //builder->CreateCall(insertFunc, {rutaValue});  // Llamamos a la función insertRuta
+        Value* rutaValue = builder->CreateGlobalString(ruta);  
+        //builder->CreateCall(insertFunc, {rutaValue}); 
 
         return visitChildren(ctx);
     }
 
     // Método para manejar la acción de graficar ruta
     antlrcpp::Any visitGraficarRutaL(GrafoParser::GraficarRutaLContext* ctx) override {
+        //NO IMPLEMENTADO
         string nombre = ctx->NOMBRENODO()->getText();  
         string ruta = ctx->RUTA()->getText();  
         return visitChildren(ctx);
@@ -175,6 +158,7 @@ public:
 
     // Método para manejar la acción de buscar una ruta
     antlrcpp::Any visitBuscarRutaL(GrafoParser::BuscarRutaLContext* ctx) override {
+        //Falta implementar
         string nombre1 = ctx->NOMBRENODO(0)->getText();
         string nombre2 = ctx->NOMBRENODO(1)->getText();
         string ruta1 = nodePath[nombre1];
@@ -184,10 +168,10 @@ public:
         cout << "Buscando ruta entre nodos: " << ruta1 << " y " << ruta2 << std::endl;
 
         // Aquí agregamos la instrucción de LLVM para buscar las rutas dentro de mainFunc
-        generateSearchFunction(ruta1, ruta2);  // Generamos la función de búsqueda dentro de mainFunc
-        Value* ruta1Value = builder->CreateGlobalString(ruta1);  // Convertir la ruta a puntero de cadena
-        Value* ruta2Value = builder->CreateGlobalString(ruta2);  // Convertir la ruta a puntero de cadena
-       // builder->CreateCall(searchFunction, {ruta1Value, ruta2Value});  // Llamamos a la función buscarRuta
+        generateSearchFunction(ruta1, ruta2);  
+        Value* ruta1Value = builder->CreateGlobalString(ruta1);
+        Value* ruta2Value = builder->CreateGlobalString(ruta2);
+       // builder->CreateCall(searchFunction, {ruta1Value, ruta2Value});  
 
         return visitChildren(ctx);
     }

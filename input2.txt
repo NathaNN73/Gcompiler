@@ -1,0 +1,3 @@
+nuevoNodo abc 100;
+nuevoNodo hola 001;
+buscarRuta b d;
