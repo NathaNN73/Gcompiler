@@ -1,0 +1,10 @@
+nuevoNodo a *
+nuevoNodo b 0
+nuevoNodo c 1
+nuevoNodo d 01
+nuevoNodo e 10
+setearPosicion 11 > 01
+buscarRuta a d
+buscarRuta a e
+buscarRuta a b
+buscarRuta a c

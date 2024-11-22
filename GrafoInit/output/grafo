@@ -1,0 +1,11 @@
+strict digraph grafoGV {
+	a
+	b
+	a -> b [label=0]
+	c
+	a -> c [label=1]
+	c -> b [label=0]
+	a [color=red fontcolor=red fontname="times bold" penwidth=3]
+	b [color=red fontcolor=red fontname="times bold" penwidth=3]
+	a -> b [color=red fontcolor=red fontname="times bold" penwidth=3]
+}

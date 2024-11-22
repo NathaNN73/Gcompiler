@@ -1,0 +1,21 @@
+nuevoNodo a *
+nuevoNodo b 0
+nuevoNodo c 1
+nuevoNodo e 01
+nuevoNodo f 00
+nuevoNodo d 10
+nuevoNodo g 11
+nuevoNodo h 101
+setearPosicion 000 > 101
+nuevoNodo i 010
+setearPosicion 100 > 010
+setearPosicion 011 > 1
+graficarRuta b 111
+graficarRuta b 00
+graficarRuta e 100
+setearPosicion 001 > 0110
+nuevoNodo j 01110
+graficarRuta b 1110
+nuevoNodo k 0100
+setearPosicion 111 > 0100
+buscarRuta b k

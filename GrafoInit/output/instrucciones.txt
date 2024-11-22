@@ -1,0 +1,5 @@
+nuevoNodo a *
+nuevoNodo b 0
+nuevoNodo c 1
+setearPosicion 10 > 0
+buscarRuta a b

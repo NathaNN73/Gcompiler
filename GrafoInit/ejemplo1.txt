@@ -1,0 +1,9 @@
+nN a *
+nuevoNodo b 1
+nuevoNodo c 11
+nuevoNodo d 10
+sP 111 > 10
+gR b 10
+bR a c
+nuevoNodo e 0
+buscarRuta b d
